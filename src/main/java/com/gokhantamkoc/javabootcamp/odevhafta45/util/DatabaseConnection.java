@@ -6,8 +6,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-@Component
-public class DatabaseConnection {
+@Component 
+public class DatabaseConnection { 
 
     // VERITABANI AYARLARINI KENDI KURULUMUNUZA GORE GUNCELLEME YAPINIZ.
     private final String URL = "jdbc:mysql://localhost:3306/swapper";
