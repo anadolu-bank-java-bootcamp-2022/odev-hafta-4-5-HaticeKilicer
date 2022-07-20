@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -56,6 +57,7 @@ public class ProductServiceTests {
     public void ListProductTest() {
         List<Product> productList = productService.listProduct();
         assertThat(productList.size()).isEqualTo(2);
+        System.out.println("a:  b: " +productList);
     }
 
     @Test

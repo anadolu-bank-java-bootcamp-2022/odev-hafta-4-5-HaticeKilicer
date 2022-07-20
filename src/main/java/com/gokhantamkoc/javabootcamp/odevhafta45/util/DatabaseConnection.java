@@ -10,9 +10,9 @@ import java.sql.SQLException;
 public class DatabaseConnection {
 
     // VERITABANI AYARLARINI KENDI KURULUMUNUZA GORE GUNCELLEME YAPINIZ.
-    private final String URL = "jdbc:postgresql://localhost:5330/swapper";
+    private final String URL = "jdbc:mysql://localhost:3306/swapper";
     private final String USER = "root";
-    private final String PASSWORD = "toor";
+    private final String PASSWORD = "Hatice.0";
 
     private Connection connection = null;
 
@@ -21,6 +21,7 @@ public class DatabaseConnection {
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
             System.out.println("Connected to Database!");
         } catch (SQLException ex) {
+        	
             System.out.println(ex.getMessage());
             ex.printStackTrace();
         }

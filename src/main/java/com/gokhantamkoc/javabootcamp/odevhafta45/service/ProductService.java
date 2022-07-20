@@ -19,18 +19,22 @@ public class ProductService {
 
     public void createProduct(Product newProduct) {
         // BU METHODU 1. GOREV ICIN DOLDURUNUZ
+    	this.productRepository.save(newProduct);
     }
 
     public Product getProduct(long id) {
         // BU METHODU 1. GOREV ICIN DOLDURUNUZ
+    	return this.productRepository.get(id);
     }
 
     public void updateProduct(Product product) {
         // BU METHODU 1. GOREV ICIN DOLDURUNUZ
+    	this.productRepository.update(product);
     }
 
     public List<Product> listProduct() {
-        // BU METHODU 1. GOREV ICIN DOLDURUNUZ
+        // BU METHODU 1. GOREV ICIN 
+    	return this.productRepository.getAll();
     }
 
     // BU METHODU SILMEYINIZ YOKSA TESTLER CALISMAZ

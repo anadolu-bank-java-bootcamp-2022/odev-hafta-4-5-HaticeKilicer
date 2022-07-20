@@ -21,7 +21,7 @@ public class OwnerRepository {
     }
 
     public List<Owner> getAll() {
-        final String SQL = "SELECT id, full_name, email FROM public.owner";
+        final String SQL = "SELECT id, full_name, email FROM swapper.owner";
         List<Owner> orders = new ArrayList<>();
         try (PreparedStatement preparedStatement = databaseConnection.getConnection().prepareStatement(SQL)) {
             ResultSet rs = preparedStatement.executeQuery();
@@ -45,7 +45,7 @@ public class OwnerRepository {
     }
 
     public Owner get(long id) {
-        final String SQL = "SELECT * FROM public.owner where id = ? limit 1;";
+        final String SQL = "SELECT * FROM swapper.owner where id = ? limit 1;";
         try (PreparedStatement preparedStatement = databaseConnection.getConnection().prepareStatement(SQL)) {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
@@ -65,7 +65,7 @@ public class OwnerRepository {
     }
 
     public void save(Owner owner) throws RuntimeException {
-        final String SQL = "INSERT INTO public.owner(id, full_name, email) values(?, ?, ?)";
+        final String SQL = "INSERT INTO swapper.owner(id, full_name, email) values(?, ?, ?)";
         try (PreparedStatement preparedStatement = databaseConnection.getConnection().prepareStatement(SQL)) {
             preparedStatement.setLong(1, owner.getId());
             preparedStatement.setString(2, owner.getFullName());
@@ -83,7 +83,7 @@ public class OwnerRepository {
     public void update(Owner owner) throws RuntimeException {
         Owner foundOwner = this.get(owner.getId());
         if (foundOwner != null) {
-            final String SQL = "UPDATE public.owner set full_name = ?, email = ? where id = ?";
+            final String SQL = "UPDATE swapper.owner set full_name = ?, email = ? where id = ?";
             try (PreparedStatement preparedStatement = databaseConnection.getConnection().prepareStatement(SQL)) {
                 preparedStatement.setString(1, owner.getFullName());
                 preparedStatement.setString(2, owner.getEmail());

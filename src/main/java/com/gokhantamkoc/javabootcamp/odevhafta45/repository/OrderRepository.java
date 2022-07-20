@@ -3,6 +3,7 @@ package com.gokhantamkoc.javabootcamp.odevhafta45.repository;
 import com.gokhantamkoc.javabootcamp.odevhafta45.model.Order;
 import com.gokhantamkoc.javabootcamp.odevhafta45.model.OrderDetail;
 import com.gokhantamkoc.javabootcamp.odevhafta45.model.Owner;
+import com.gokhantamkoc.javabootcamp.odevhafta45.model.Product;
 import com.gokhantamkoc.javabootcamp.odevhafta45.util.DatabaseConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -42,7 +43,7 @@ public class OrderRepository {
 
     public List<Order> getAll() {
         final String SQL =
-                "SELECT id, status, requester_id, bidder_id, requester_address, bidder_address FROM public.order";
+                "SELECT id, status, requester_id, bidder_id, requester_address, bidder_address FROM swapper.order";
         List<Order> orders = new ArrayList<>();
         try (PreparedStatement preparedStatement = databaseConnection.getConnection().prepareStatement(SQL)) {
             ResultSet rs = preparedStatement.executeQuery();
@@ -72,7 +73,7 @@ public class OrderRepository {
     }
 
     public Order get(long id) {
-        final String SQL = "SELECT * FROM public.order where id = ? limit 1;";
+        final String SQL = "SELECT * FROM swapper.order where id = ? limit 1;";
         try (PreparedStatement preparedStatement = databaseConnection.getConnection().prepareStatement(SQL)) {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
@@ -96,10 +97,40 @@ public class OrderRepository {
 
     public List<OrderDetail> getOrderDetails(long orderId) {
         // BU METHODU 2. GOREV ICIN DOLDURUNUZ
+        final String SQL = "SELECT * FROM order_detail where id = ? limit 1;";
+        List<OrderDetail> orderDetails = new ArrayList<>();
+        try (PreparedStatement preparedStatement = databaseConnection.getConnection().prepareStatement(SQL)) {
+            preparedStatement.setLong(1, orderId);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                long id = rs.getLong("id");
+                String status = rs.getString("status");
+                String type = rs.getString("type");
+                Order order = this.orderRepository.get(rs.getLong("order_id"));
+                Product product = this.productRepository.get(rs.getLong("product_id"));
+                long amount = rs.getLong("amount");
+                String amountType = rs.getString("amount_type");
+                orderDetails.add(
+                    new OrderDetail(
+                        id,
+                        status,
+                        type,
+                        order,
+                        product,
+                        amount,
+                        amountType
+                    )
+                );
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return orderDetails;
     }
 
     public void save(Order order) throws RuntimeException {
-        final String SQL = "INSERT INTO public.owner(id, status, requester_id, bidder_id, requester_address, bidder_address) values(?, ?, ?, ?, ?, ?)";
+        final String SQL = "INSERT INTO swapper.owner(id, status, requester_id, bidder_id, requester_address, bidder_address) values(?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = databaseConnection.getConnection().prepareStatement(SQL)) {
             preparedStatement.setLong(1, order.getId());
             preparedStatement.setString(2, "IN_PROGRESS");
@@ -120,7 +151,7 @@ public class OrderRepository {
     public void update(Order order) throws RuntimeException {
         Order foundOrder = this.get(order.getId());
         if (foundOrder != null) {
-            final String SQL = "UPDATE public.order set status = ?, requester_id = ?, bidder_id = ?, requester_address = ?, bidder_address = ? where id = ?";
+            final String SQL = "UPDATE swapper.order set status = ?, requester_id = ?, bidder_id = ?, requester_address = ?, bidder_address = ? where id = ?";
             try (PreparedStatement preparedStatement = databaseConnection.getConnection().prepareStatement(SQL)) {
                 preparedStatement.setString(1, order.getStatus());
                 preparedStatement.setLong(2, order.getRequester().getId());
