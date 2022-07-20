@@ -21,8 +21,12 @@ public class ProductServiceTests {
 
     @Before
     public void setup() {
+
+        ProductRepository productRepository = new ProductRepository();
+        productRepository.setDatabaseConnection(new DatabaseConnection());
+
         this.productService = new ProductService(
-                new ProductRepository(new DatabaseConnection())
+               productRepository
         );
     }
 

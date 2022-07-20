@@ -16,11 +16,10 @@ public class ProductRepository {
 
     DatabaseConnection databaseConnection;
 
-   
-
-	public ProductRepository(DatabaseConnection databaseConnection2) {
+  
+/*	public ProductRepository(DatabaseConnection databaseConnection2) {
 		// TODO Auto-generated constructor stub
-	}
+	}*/
 
 	@Autowired
     public void setDatabaseConnection(DatabaseConnection databaseConnection) {
